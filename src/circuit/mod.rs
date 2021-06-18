@@ -18,7 +18,7 @@ use franklin_crypto::plonk::circuit::verifier_circuit::verifying_circuit::aggreg
 use franklin_crypto::rescue::{RescueEngine, RescueHashParams, StatefulRescue, rescue_hash as rescue_hash_out_of_circuit};
 
 use franklin_crypto::bellman::SynthesisError;
-use franklin_crypto::bellman::worker::Worker;
+use franklin_crypto::bellman::multicore_gpu::Worker;
 
 use franklin_crypto::bellman::plonk::better_cs::cs::PlonkConstraintSystemParams as OldCSParams;
 use franklin_crypto::bellman::plonk::better_cs::generator::make_non_residues;
@@ -782,7 +782,7 @@ pub fn create_recursive_circuit_setup<'a>(
 
     recursive_circuit.synthesize(&mut assembly)?;
 
-    use franklin_crypto::bellman::worker::*;
+    use franklin_crypto::bellman::multicore_gpu::Worker;
     let worker = Worker::new();
 
     assembly.finalize();
@@ -797,7 +797,7 @@ pub fn create_recursive_circuit_vk_and_setup<'a>(
     vk_tree_depth: usize,
     crs: &Crs<Bn256, CrsForMonomialForm>,
 ) -> Result<(NewVerificationKey<Bn256, RecursiveAggregationCircuitBn256<'a>>, NewSetup<Bn256, RecursiveAggregationCircuitBn256<'a>>), SynthesisError> {
-    use franklin_crypto::bellman::worker::*;
+    use franklin_crypto::bellman::multicore_gpu::Worker;
     let worker = Worker::new();
 
     let setup = create_recursive_circuit_setup(num_proofs_to_check, num_inputs, vk_tree_depth)?;
@@ -1105,7 +1105,7 @@ mod test {
     use franklin_crypto::bellman::plonk::better_cs::verifier::verify_and_aggregate;
     use franklin_crypto::bellman::plonk::commitments::transcript::*;
     use franklin_crypto::bellman::plonk::fft::cooley_tukey_ntt::*;
-    use franklin_crypto::bellman::worker::*;
+    use franklin_crypto::bellman::multicore_gpu::Worker;
 
     use franklin_crypto::plonk::circuit::curve::sw_affine::*;
     use franklin_crypto::plonk::circuit::verifier_circuit::affine_point_wrapper::without_flag_unchecked::*;
