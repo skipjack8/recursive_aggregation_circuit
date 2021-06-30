@@ -1373,7 +1373,7 @@ mod test {
         let b = Fr::one();
 
         let mut circuits = vec![];
-        for num_steps in vec![18, 40, 25, 35].into_iter() {
+        for num_steps in vec![18, 40].into_iter() {
             let circuit = BenchmarkCircuitWithOneInput::<Bn256> {
                 num_steps,
                 a,
@@ -1422,8 +1422,8 @@ mod test {
             &crs,
         ).expect("must create recursive circuit verification key");
 
-        let proofs_to_check = vec![2,3];
-        let proofs = vec![proofs[2].clone(), proofs[3].clone()];
+        let proofs_to_check = vec![0,1];
+        let proofs = vec![proofs[0].clone(), proofs[1].clone()];
     
         let worker = Worker::new();
 
